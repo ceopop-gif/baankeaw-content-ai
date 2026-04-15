@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>บ้านเขียว — Content Auto-Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700;800;900&family=Syne:wght@700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --g: #22c55e;
+  --g2: #16a34a;
+  --g3: #4ade80;
+  --glow: rgba(34,197,94,0.2);
+  --bg: #060d06;
+  --bg2: #0c160c;
+  --card: #101a10;
+  --card2: #142014;
+  --border: rgba(34,197,94,0.2);
+  --border2: rgba(34,197,94,0.1);
+  --text: #f0fdf0;
+  --dim: #86efac;
+  --muted: #4ade80;
+  --err: #f87171;
+  --warn: #fbbf24;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Noto Sans Thai', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* GRID BG */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(34,197,94,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34,197,94,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.logo-box {
+  width: 52px; height: 52px;
+  background: linear-gradient(135deg, var(--g), var(--g2));
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  box-shadow: 0 0 24px var(--glow);
+}
+.logo-text { font-size: 24px; font-weight: 800; }
+.logo-text span { color: var(--g); }
+.header-badge {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: 100px;
+  background: rgba(34,197,94,0.06);
+}
+
+/* MAIN LAYOUT */
+.main {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* PANEL */
+.panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.panel-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.panel-icon {
+  width: 32px; height: 32px;
+  background: var(--glow);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+}
+.panel-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+.panel-body { padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+
+/* FORM */
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dim);
+  letter-spacing: 0.5px;
+}
+input, textarea, select {
+  font-family: 'Noto Sans Thai', sans-serif;
+  font-size: 15px;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 12px;
+  padding: 12px 16px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: var(--g);
+  box-shadow: 0 0 0 3px rgba(34,197,94,0.15);
+}
+input[type="password"] { letter-spacing: 2px; }
+textarea { resize: vertical; min-height: 90px; }
+select option { background: #101a10; }
+
+/* STYLE SELECTOR */
+.style-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+.style-btn {
+  background: var(--card2);
+  border: 1px solid var(--border2);
+  color: var(--dim);
+  border-radius: 10px;
+  padding: 10px 8px;
+  font-family: 'Noto Sans Thai', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+.style-btn:hover { border-color: var(--g); color: var(--g); }
+.style-btn.active {
+  background: rgba(34,197,94,0.15);
+  border-color: var(--g);
+  color: var(--g);
+  box-shadow: 0 0 12px rgba(34,197,94,0.2);
+}
+
+/* IMAGE STYLE */
+.img-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.chip {
+  background: var(--card2);
+  border: 1px solid var(--border2);
+  color: var(--dim);
+  border-radius: 100px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.chip:hover { border-color: var(--g); color: var(--g); }
+.chip.active {
+  background: rgba(34,197,94,0.15);
+  border-color: var(--g);
+  color: var(--g);
+}
+
+/* GENERATE BTN */
+.gen-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--g), var(--g2));
+  border: none;
+  color: white;
+  font-family: 'Noto Sans Thai', sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+  padding: 16px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 0 28px rgba(34,197,94,0.3);
+  position: relative;
+  overflow: hidden;
+}
+.gen-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 40px rgba(34,197,94,0.45);
+}
+.gen-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* PROGRESS */
+.progress-wrap { display: none; flex-direction: column; gap: 10px; }
+.progress-wrap.show { display: flex; }
+.progress-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--dim);
+  opacity: 0.4;
+  transition: all 0.3s;
+}
+.progress-step.active { opacity: 1; color: var(--text); }
+.progress-step.done { opacity: 0.7; color: var(--g); }
+.step-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--border);
+  flex-shrink: 0;
+  transition: all 0.3s;
+}
+.progress-step.active .step-dot {
+  background: var(--warn);
+  box-shadow: 0 0 8px var(--warn);
+  animation: pulse 1s infinite;
+}
+.progress-step.done .step-dot {
+  background: var(--g);
+  box-shadow: 0 0 8px var(--g);
+}
+@keyframes pulse {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.4); }
+}
+
+/* OUTPUT PANEL */
+.output-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* EMPTY STATE */
+.empty-state {
+  background: var(--card);
+  border: 1px dashed var(--border);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 80px 40px;
+  text-align: center;
+}
+.empty-icon { font-size: 56px; opacity: 0.4; }
+.empty-title { font-size: 20px; font-weight: 700; color: var(--dim); }
+.empty-sub { font-size: 14px; color: var(--muted); opacity: 0.6; }
+
+/* FB PREVIEW */
+.fb-preview {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  display: none;
+}
+.fb-preview.show { display: block; }
+
+.fb-topbar {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border2);
+}
+.fb-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+.copy-btn {
+  background: rgba(34,197,94,0.1);
+  border: 1px solid var(--border);
+  color: var(--g);
+  font-family: 'Noto Sans Thai', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.copy-btn:hover { background: rgba(34,197,94,0.2); }
+
+.fb-mock {
+  background: #18191a;
+  padding: 16px;
+}
+.fb-post {
+  background: #242526;
+  border-radius: 12px;
+  overflow: hidden;
+  max-width: 520px;
+  margin: 0 auto;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+.fb-header {
+  padding: 14px 16px 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.fb-avatar {
+  width: 42px; height: 42px;
+  background: linear-gradient(135deg, var(--g), var(--g2));
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.fb-name { font-size: 15px; font-weight: 700; color: #e4e6eb; }
+.fb-time { font-size: 12px; color: #b0b3b8; margin-top: 2px; }
+
+.fb-caption {
+  padding: 0 16px 12px;
+  font-size: 15px;
+  color: #e4e6eb;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.fb-image-wrap {
+  width: 100%;
+  background: var(--card2);
+  min-height: 200px;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.fb-image-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.img-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 40px;
+  color: var(--dim);
+  font-size: 14px;
+}
+.spin {
+  width: 36px; height: 36px;
+  border: 3px solid var(--border);
+  border-top-color: var(--g);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.fb-actions {
+  padding: 8px 16px 12px;
+  display: flex;
+  gap: 4px;
+}
+.fb-act {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #b0b3b8;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: default;
+  text-align: center;
+}
+
+/* CAPTION CARD */
+.caption-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  display: none;
+}
+.caption-card.show { display: block; }
+.caption-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.caption-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.caption-body {
+  padding: 20px;
+}
+.caption-text {
+  font-size: 15px;
+  color: var(--dim);
+  line-height: 1.8;
+  white-space: pre-wrap;
+  background: var(--card2);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 16px;
+  min-height: 120px;
+}
+
+/* HASHTAG ROW */
+.hash-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.hash-tag {
+  background: rgba(34,197,94,0.1);
+  color: var(--g);
+  border-radius: 100px;
+  padding: 4px 12px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ALERT */
+.alert {
+  background: rgba(248,113,113,0.1);
+  border: 1px solid rgba(248,113,113,0.3);
+  color: var(--err);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 14px;
+  display: none;
+}
+.alert.show { display: block; }
+
+/* REGEN */
+.action-row {
+  display: flex;
+  gap: 10px;
+  display: none;
+}
+.action-row.show { display: flex; }
+.regen-btn {
+  flex: 1;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  color: var(--dim);
+  font-family: 'Noto Sans Thai', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.regen-btn:hover { border-color: var(--g); color: var(--g); }
+.regen-btn.primary {
+  background: linear-gradient(135deg, var(--g), var(--g2));
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 0 20px rgba(34,197,94,0.25);
+}
+.regen-btn.primary:hover { box-shadow: 0 0 30px rgba(34,197,94,0.4); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo">
+      <div class="logo-box">🏡</div>
+      <div class="logo-text">บ้าน<span>เขียว</span> <span style="font-size:14px;font-weight:400;color:var(--muted)">Content AI</span></div>
+    </div>
+    <div class="header-badge">AUTO GENERATOR v1.0</div>
+  </div>
+
+  <div class="main">
+
+    <!-- LEFT: CONTROL PANEL -->
+    <div style="display:flex;flex-direction:column;gap:16px;">
+
+      <!-- API KEYS -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-icon">🔑</div>
+          <div class="panel-title">API Keys</div>
+        </div>
+        <div class="panel-body">
+          <label>
+            KIE.AI API Key <span style="color:var(--muted);font-weight:400">(สำหรับสร้างรูป)</span>
+            <input type="password" id="kieKey" placeholder="kie_xxxxxxxxxxxx">
+          </label>
+          <div style="font-size:12px;color:var(--muted);opacity:0.7;">
+            รับ Key ได้ที่ → <a href="https://kie.ai/api-key" target="_blank" style="color:var(--g);text-decoration:none;">kie.ai/api-key</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTENT SETTINGS -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-icon">✍️</div>
+          <div class="panel-title">ตั้งค่า Content</div>
+        </div>
+        <div class="panel-body">
+          <label>
+            หัวข้อ / โปรโมชัน
+            <textarea id="topic" placeholder="เช่น: แนะนำฟีเจอร์ AI ตอบแชท, โปรช่วง 9.9, ชวนคนเข้าทีม Affiliate..."></textarea>
+          </label>
+
+          <label>
+            สไตล์ Caption
+            <div class="style-grid" style="margin-top:4px;">
+              <button class="style-btn active" onclick="setStyle(this,'question')">❓ คำถาม<br><span style="font-size:11px;font-weight:400">Engagement</span></button>
+              <button class="style-btn" onclick="setStyle(this,'story')">📖 เรื่องเล่า<br><span style="font-size:11px;font-weight:400">Trust</span></button>
+              <button class="style-btn" onclick="setStyle(this,'data')">📊 ตัวเลข<br><span style="font-size:11px;font-weight:400">ยิงแอด</span></button>
+            </div>
+          </label>
+
+          <label>
+            สไตล์รูป (Kie.ai)
+            <div class="img-chips" style="margin-top:4px;">
+              <div class="chip active" onclick="setChip(this,'modern digital marketing poster green theme')">📱 Digital</div>
+              <div class="chip" onclick="setChip(this,'minimal clean product lifestyle photo green white')">🌿 Minimal</div>
+              <div class="chip" onclick="setChip(this,'vibrant thai business success happy people')">🎉 Energetic</div>
+              <div class="chip" onclick="setChip(this,'tech ai futuristic green neon circuit')">🤖 Tech</div>
+            </div>
+          </label>
+
+          <label>
+            กลุ่มเป้าหมาย
+            <select id="audience">
+              <option value="มือใหม่อยากมีรายได้ออนไลน์">มือใหม่อยากมีรายได้ออนไลน์</option>
+              <option value="แม่ค้าออนไลน์ที่อยากขยายยอด">แม่ค้าออนไลน์อยากขยายยอด</option>
+              <option value="คนทำงานประจำอยากมีรายได้เสริม">คนทำงานประจำ / รายได้เสริม</option>
+              <option value="SME เจ้าของธุรกิจ">SME / เจ้าของธุรกิจ</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <!-- GENERATE -->
+      <div class="panel">
+        <div class="panel-body">
+          <div class="alert" id="alertBox"></div>
+          <button class="gen-btn" id="genBtn" onclick="generate()">
+            ⚡ สร้าง Content อัตโนมัติ
+          </button>
+
+          <!-- PROGRESS -->
+          <div class="progress-wrap" id="progressWrap">
+            <div class="progress-step" id="s1">
+              <div class="step-dot"></div>
+              <span>กำลังเขียน Caption ด้วย Claude AI...</span>
+            </div>
+            <div class="progress-step" id="s2">
+              <div class="step-dot"></div>
+              <span>กำลังสร้างรูปด้วย Kie.ai (Flux)...</span>
+            </div>
+            <div class="progress-step" id="s3">
+              <div class="step-dot"></div>
+              <span>ประกอบ Facebook Post...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: OUTPUT -->
+    <div class="output-panel">
+
+      <!-- EMPTY STATE -->
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">🖼️</div>
+        <div class="empty-title">Content จะแสดงที่นี่</div>
+        <div class="empty-sub">กรอกหัวข้อและกด "สร้าง Content" เพื่อเริ่มต้น</div>
+      </div>
+
+      <!-- ACTION ROW -->
+      <div class="action-row" id="actionRow">
+        <button class="regen-btn" onclick="regenCaption()">🔄 เขียน Caption ใหม่</button>
+        <button class="regen-btn" onclick="regenImage()">🎨 สร้างรูปใหม่</button>
+        <button class="regen-btn primary" onclick="generate()">⚡ สร้างใหม่ทั้งหมด</button>
+      </div>
+
+      <!-- FB PREVIEW -->
+      <div class="fb-preview" id="fbPreview">
+        <div class="fb-topbar">
+          <span class="fb-label">FACEBOOK POST PREVIEW</span>
+          <button class="copy-btn" onclick="copyAll()">📋 Copy Caption</button>
+        </div>
+        <div class="fb-mock">
+          <div class="fb-post">
+            <div class="fb-header">
+              <div class="fb-avatar">🏡</div>
+              <div>
+                <div class="fb-name">บ้านเขียว</div>
+                <div class="fb-time">เมื่อสักครู่ · 🌐</div>
+              </div>
+            </div>
+            <div class="fb-caption" id="fbCaption"></div>
+            <div class="fb-image-wrap" id="fbImageWrap">
+              <div class="img-loading" id="imgLoading">
+                <div class="spin"></div>
+                <span>กำลังสร้างรูป...</span>
+              </div>
+            </div>
+            <div class="fb-actions">
+              <div class="fb-act">👍 ถูกใจ</div>
+              <div class="fb-act">💬 แสดงความคิดเห็น</div>
+              <div class="fb-act">↗️ แชร์</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CAPTION DETAIL -->
+      <div class="caption-card" id="captionCard">
+        <div class="caption-header">
+          <div class="caption-title">✍️ Caption เต็ม (Copy ไปใช้)</div>
+          <button class="copy-btn" onclick="copyCaption()">📋 Copy</button>
+        </div>
+        <div class="caption-body">
+          <div class="caption-text" id="captionFull"></div>
+          <div class="hash-row" id="hashRow"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// STATE
+let selectedStyle = 'question';
+let selectedImgPrompt = 'modern digital marketing poster green theme';
+let captionText = '';
+let hashtagText = '';
+let imageUrl = '';
+
+function setStyle(btn, val) {
+  document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedStyle = val;
+}
+
+function setChip(chip, val) {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  selectedImgPrompt = val;
+}
+
+function showAlert(msg) {
+  const a = document.getElementById('alertBox');
+  a.textContent = msg;
+  a.classList.add('show');
+}
+function hideAlert() { document.getElementById('alertBox').classList.remove('show'); }
+
+function setStep(step, state) {
+  const el = document.getElementById('s'+step);
+  el.classList.remove('active','done');
+  if(state) el.classList.add(state);
+}
+
+async function generate() {
+  const kieKey = document.getElementById('kieKey').value.trim();
+  const topic = document.getElementById('topic').value.trim();
+  const audience = document.getElementById('audience').value;
+
+  hideAlert();
+
+  if(!topic) { showAlert('❌ กรุณากรอกหัวข้อ Content ก่อน'); return; }
+
+  // UI reset
+  document.getElementById('genBtn').disabled = true;
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('progressWrap').classList.add('show');
+  document.getElementById('fbPreview').classList.remove('show');
+  document.getElementById('captionCard').classList.remove('show');
+  document.getElementById('actionRow').classList.remove('show');
+  document.getElementById('fbCaption').textContent = '';
+  document.getElementById('captionFull').textContent = '';
+  document.getElementById('hashRow').innerHTML = '';
+  document.getElementById('fbImageWrap').innerHTML = '<div class="img-loading"><div class="spin"></div><span>กำลังสร้างรูป...</span></div>';
+
+  setStep(1,'active'); setStep(2,''); setStep(3,'');
+
+  // Step 1: Claude Caption
+  try {
+    const caption = await generateCaption(topic, audience, selectedStyle);
+    captionText = caption.text;
+    hashtagText = caption.hashtags;
+
+    setStep(1,'done'); setStep(2,'active');
+
+    // Show preview early
+    document.getElementById('fbPreview').classList.add('show');
+    document.getElementById('captionCard').classList.add('show');
+    document.getElementById('fbCaption').textContent = captionText;
+    document.getElementById('captionFull').textContent = captionText + '\n\n' + hashtagText;
+
+    // Hashtag chips
+    const hr = document.getElementById('hashRow');
+    hashtagText.split(' ').filter(h => h.startsWith('#')).forEach(h => {
+      const d = document.createElement('div');
+      d.className = 'hash-tag';
+      d.textContent = h;
+      hr.appendChild(d);
+    });
+
+    // Step 2: Kie.ai Image
+    if(kieKey) {
+      try {
+        const imgSrc = await generateImage(kieKey, topic, selectedImgPrompt);
+        imageUrl = imgSrc;
+        const wrap = document.getElementById('fbImageWrap');
+        wrap.innerHTML = '';
+        const img = document.createElement('img');
+        img.src = imgSrc;
+        img.alt = 'Generated Image';
+        img.onerror = () => { wrap.innerHTML = '<div class="img-loading" style="color:var(--err)">⚠️ โหลดรูปไม่สำเร็จ</div>'; };
+        wrap.appendChild(img);
+      } catch(e) {
+        document.getElementById('fbImageWrap').innerHTML = `<div class="img-loading" style="color:var(--err)">⚠️ สร้างรูปไม่สำเร็จ: ${e.message}</div>`;
+      }
+    } else {
+      document.getElementById('fbImageWrap').innerHTML = '<div class="img-loading" style="color:var(--muted)">🔑 ใส่ KIE.AI Key เพื่อสร้างรูป</div>';
+    }
+
+    setStep(2,'done'); setStep(3,'active');
+    await new Promise(r => setTimeout(r, 600));
+    setStep(3,'done');
+
+    document.getElementById('actionRow').classList.add('show');
+
+  } catch(e) {
+    showAlert('❌ เกิดข้อผิดพลาด: ' + e.message);
+    document.getElementById('emptyState').style.display = '';
+  }
+
+  document.getElementById('genBtn').disabled = false;
+  document.getElementById('progressWrap').classList.remove('show');
+  setStep(1,''); setStep(2,''); setStep(3,'');
+}
+
+// ── CLAUDE CAPTION ──
+async function generateCaption(topic, audience, style) {
+  const styleMap = {
+    question: 'Hook แบบคำถาม (เริ่มด้วยคำถามที่ทำให้คนอยากตอบ)',
+    story: 'Hook แบบเรื่องเล่า (เล่าเรื่องส่วนตัว/ลูกค้า กระตุ้น Trust)',
+    data: 'Hook แบบตัวเลข (ขึ้นต้นด้วยตัวเลขหรือ List เช่น "3 สิ่งที่...")'
+  };
+
+  const systemPrompt = `คุณคือ Content Creator ผู้เชี่ยวชาญสำหรับแบรนด์ "บ้านเขียว (Green AI Commerce)"
+
+ข้อมูลแบรนด์:
+- Vision: สร้างโอกาสให้คนไทยทุกคน มีรายได้ผ่าน AI + LINE ได้จริง
+- Mission: ทำให้คนธรรมดาเริ่มขายออนไลน์ได้ง่ายที่สุด ใช้ AI ช่วยลดภาระ
+- Brand Promise: เริ่มง่าย ขายได้จริง มีรายได้เกิดขึ้น
+- Brand Voice: พูดง่าย ไม่วิชาการ เน้นผลลัพธ์จริง กระตุ้นให้ลงมือทำ เป็นมิตร
+- ห้ามใช้ศัพท์วิชาการ พูดแบบเพื่อน ไม่ใช่นักวิชาการ
+
+ตอบเป็น JSON เท่านั้น ไม่มี backtick ไม่มีคำอธิบายเพิ่มเติม
+Format: {"text": "...", "hashtags": "#..."}
+- text: Caption เต็ม ภาษาไทย 150-250 คำ มี Hook + Body + CTA
+- hashtags: hashtag 8-10 อัน คั่นด้วย space`;
+
+  const userPrompt = `เขียน Facebook Caption สำหรับแบรนด์บ้านเขียว
+หัวข้อ: ${topic}
+กลุ่มเป้าหมาย: ${audience}
+สไตล์ Hook: ${styleMap[style]}
+
+ต้องมี:
+1. Hook ที่แข็งแกร่งตามสไตล์ที่กำหนด
+2. เนื้อหาเชื่อมกับ Pain ของกลุ่มเป้าหมาย
+3. บอกประโยชน์จากบ้านเขียว
+4. CTA ชัดเจน (DM, คอมเมนต์ "สนใจ", กดลิงก์)
+5. Emoji เหมาะสม ไม่เยอะเกิน`;
+
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1000,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: userPrompt }]
+    })
+  });
+
+  if(!res.ok) throw new Error('Claude API error: ' + res.status);
+  const data = await res.json();
+  const raw = data.content?.[0]?.text || '';
+  
+  try {
+    const clean = raw.replace(/```json|```/g, '').trim();
+    return JSON.parse(clean);
+  } catch {
+    return { text: raw, hashtags: '#บ้านเขียว #รายได้ออนไลน์ #ขายออนไลน์' };
+  }
+}
+
+// ── KIE.AI IMAGE ──
+async function generateImage(apiKey, topic, imgStyle) {
+  // Build prompt
+  const prompt = `${imgStyle}, thai e-commerce business, green color theme, professional, ${topic}, high quality 4k`;
+
+  // Create task
+  const createRes = await fetch('https://kie.ai/api/v1/flux/schnell/generate', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      prompt: prompt,
+      aspect_ratio: '1:1',
+      num_images: 1
+    })
+  });
+
+  if(!createRes.ok) {
+    const errBody = await createRes.text();
+    throw new Error(`Kie.ai error ${createRes.status}: ${errBody.slice(0,100)}`);
+  }
+
+  const createData = await createRes.json();
+  const taskId = createData?.data?.task_id || createData?.task_id;
+  if(!taskId) throw new Error('ไม่ได้รับ task_id จาก Kie.ai');
+
+  // Poll for result (max 60s)
+  for(let i = 0; i < 30; i++) {
+    await new Promise(r => setTimeout(r, 2000));
+    const pollRes = await fetch(`https://kie.ai/api/v1/flux/schnell/record-info?task_id=${taskId}`, {
+      headers: { 'Authorization': `Bearer ${apiKey}` }
+    });
+    if(!pollRes.ok) continue;
+    const pollData = await pollRes.json();
+    const status = pollData?.data?.status || pollData?.status;
+
+    if(status === 'succeed' || status === 'success' || status === 'completed') {
+      const imgs = pollData?.data?.works || pollData?.data?.images || [];
+      const url = imgs[0]?.url || imgs[0] || pollData?.data?.url;
+      if(url) return url;
+      throw new Error('ไม่พบ URL รูปภาพ');
+    }
+    if(status === 'failed' || status === 'error') {
+      throw new Error('Kie.ai: การสร้างรูปล้มเหลว');
+    }
+  }
+  throw new Error('Timeout: สร้างรูปใช้เวลานานเกินไป');
+}
+
+// ── ACTIONS ──
+async function regenCaption() {
+  const topic = document.getElementById('topic').value.trim();
+  const audience = document.getElementById('audience').value;
+  if(!topic) return;
+  document.getElementById('genBtn').disabled = true;
+  document.getElementById('fbCaption').textContent = '⏳ กำลังเขียนใหม่...';
+  try {
+    const c = await generateCaption(topic, audience, selectedStyle);
+    captionText = c.text; hashtagText = c.hashtags;
+    document.getElementById('fbCaption').textContent = captionText;
+    document.getElementById('captionFull').textContent = captionText + '\n\n' + hashtagText;
+    const hr = document.getElementById('hashRow');
+    hr.innerHTML = '';
+    hashtagText.split(' ').filter(h => h.startsWith('#')).forEach(h => {
+      const d = document.createElement('div'); d.className='hash-tag'; d.textContent=h; hr.appendChild(d);
+    });
+  } catch(e) { showAlert('❌ ' + e.message); }
+  document.getElementById('genBtn').disabled = false;
+}
+
+async function regenImage() {
+  const kieKey = document.getElementById('kieKey').value.trim();
+  const topic = document.getElementById('topic').value.trim();
+  if(!kieKey) { showAlert('❌ กรุณากรอก KIE.AI API Key'); return; }
+  document.getElementById('fbImageWrap').innerHTML = '<div class="img-loading"><div class="spin"></div><span>กำลังสร้างรูปใหม่...</span></div>';
+  try {
+    const url = await generateImage(kieKey, topic, selectedImgPrompt);
+    const wrap = document.getElementById('fbImageWrap');
+    wrap.innerHTML = '';
+    const img = document.createElement('img');
+    img.src = url; img.alt = 'Generated';
+    wrap.appendChild(img);
+  } catch(e) {
+    document.getElementById('fbImageWrap').innerHTML = `<div class="img-loading" style="color:var(--err)">⚠️ ${e.message}</div>`;
+  }
+}
+
+function copyCaption() {
+  const txt = document.getElementById('captionFull').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const btn = event.target;
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => btn.textContent = '📋 Copy', 2000);
+  });
+}
+function copyAll() { copyCaption(); }
+</script>
+</body>
+</html>
