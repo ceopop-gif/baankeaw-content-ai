@@ -535,6 +535,13 @@ select option { background: #101a10; }
         </div>
         <div class="panel-body">
           <label>
+            Anthropic API Key <span style="color:var(--muted);font-weight:400">(สำหรับเขียน Caption)</span>
+            <input type="password" id="claudeKey" placeholder="sk-ant-xxxxxxxxxxxx">
+          </label>
+          <div style="font-size:12px;color:var(--muted);opacity:0.7;">
+            รับ Key ได้ที่ → <a href="https://console.anthropic.com/keys" target="_blank" style="color:var(--g);text-decoration:none;">console.anthropic.com/keys</a>
+          </div>
+          <label>
             KIE.AI API Key <span style="color:var(--muted);font-weight:400">(สำหรับสร้างรูป)</span>
             <input type="password" id="kieKey" placeholder="kie_xxxxxxxxxxxx">
           </label>
@@ -714,11 +721,13 @@ function setStep(step, state) {
 
 async function generate() {
   const kieKey = document.getElementById('kieKey').value.trim();
+  const claudeKey = document.getElementById('claudeKey').value.trim();
   const topic = document.getElementById('topic').value.trim();
   const audience = document.getElementById('audience').value;
 
   hideAlert();
 
+  if(!claudeKey) { showAlert('❌ กรุณากรอก Anthropic API Key ก่อน'); return; }
   if(!topic) { showAlert('❌ กรุณากรอกหัวข้อ Content ก่อน'); return; }
 
   // UI reset
@@ -737,7 +746,7 @@ async function generate() {
 
   // Step 1: Claude Caption
   try {
-    const caption = await generateCaption(topic, audience, selectedStyle);
+    const caption = await generateCaption(claudeKey, topic, audience, selectedStyle);
     captionText = caption.text;
     hashtagText = caption.hashtags;
 
@@ -794,7 +803,7 @@ async function generate() {
 }
 
 // ── CLAUDE CAPTION ──
-async function generateCaption(topic, audience, style) {
+async function generateCaption(apiKey, topic, audience, style) {
   const styleMap = {
     question: 'Hook แบบคำถาม (เริ่มด้วยคำถามที่ทำให้คนอยากตอบ)',
     story: 'Hook แบบเรื่องเล่า (เล่าเรื่องส่วนตัว/ลูกค้า กระตุ้น Trust)',
@@ -829,7 +838,12 @@ Format: {"text": "...", "hashtags": "#..."}
 
   const res = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 1000,
@@ -903,13 +917,14 @@ async function generateImage(apiKey, topic, imgStyle) {
 
 // ── ACTIONS ──
 async function regenCaption() {
+  const claudeKey = document.getElementById('claudeKey').value.trim();
   const topic = document.getElementById('topic').value.trim();
   const audience = document.getElementById('audience').value;
-  if(!topic) return;
+  if(!claudeKey || !topic) return;
   document.getElementById('genBtn').disabled = true;
   document.getElementById('fbCaption').textContent = '⏳ กำลังเขียนใหม่...';
   try {
-    const c = await generateCaption(topic, audience, selectedStyle);
+    const c = await generateCaption(claudeKey, topic, audience, selectedStyle);
     captionText = c.text; hashtagText = c.hashtags;
     document.getElementById('fbCaption').textContent = captionText;
     document.getElementById('captionFull').textContent = captionText + '\n\n' + hashtagText;
