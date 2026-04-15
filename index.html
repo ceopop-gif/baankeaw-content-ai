@@ -3,94 +3,96 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>บ้านเขียว — Content Auto-Generator</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700;800;900&family=Syne:wght@700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<title>บ้านเขียว Content AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700;800;900&family=Syne:wght@700;800;900&family=Space+Mono&display=swap" rel="stylesheet">
 <style>
-:root{--g:#22c55e;--g2:#16a34a;--g3:#4ade80;--glow:rgba(34,197,94,0.2);--bg:#060d06;--bg2:#0c160c;--card:#101a10;--card2:#142014;--border:rgba(34,197,94,0.2);--border2:rgba(34,197,94,0.1);--text:#f0fdf0;--dim:#86efac;--muted:#4ade80;--err:#f87171;--warn:#fbbf24}
+:root{--g:#22c55e;--g2:#16a34a;--glow:rgba(34,197,94,0.18);--bg:#060d06;--card:#101a10;--card2:#142014;--border:rgba(34,197,94,0.2);--border2:rgba(34,197,94,0.1);--text:#f0fdf0;--dim:#86efac;--muted:#4ade80;--err:#f87171;--warn:#fbbf24}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Noto Sans Thai',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+body{font-family:'Noto Sans Thai',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(34,197,94,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
-.wrap{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:32px 24px 80px}
-.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--border)}
-.logo{display:flex;align-items:center;gap:14px}
-.logo-box{width:52px;height:52px;background:linear-gradient(135deg,var(--g),var(--g2));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 0 24px var(--glow)}
-.logo-text{font-size:24px;font-weight:800}
-.logo-text span{color:var(--g)}
-.header-badge{font-family:'Space Mono',monospace;font-size:12px;color:var(--muted);border:1px solid var(--border);padding:6px 14px;border-radius:100px;background:rgba(34,197,94,0.06)}
-.main{display:grid;grid-template-columns:400px 1fr;gap:24px;align-items:start}
-.panel{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;margin-bottom:16px}
-.panel-header{padding:18px 22px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:10px}
-.panel-icon{width:30px;height:30px;background:var(--glow);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px}
-.panel-title{font-size:15px;font-weight:700}
-.panel-body{padding:20px;display:flex;flex-direction:column;gap:18px}
-label{display:flex;flex-direction:column;gap:7px;font-size:13px;font-weight:600;color:var(--dim);letter-spacing:.4px}
-input,textarea,select{font-family:'Noto Sans Thai',sans-serif;font-size:15px;background:var(--card2);border:1px solid var(--border);color:var(--text);border-radius:12px;padding:12px 15px;outline:none;transition:border-color .2s,box-shadow .2s;width:100%}
-input:focus,textarea:focus,select:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(34,197,94,.15)}
+.wrap{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:28px 20px 60px}
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-box{width:46px;height:46px;background:linear-gradient(135deg,var(--g),var(--g2));border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 0 20px var(--glow)}
+.logo-text{font-size:22px;font-weight:800}.logo-text .g{color:var(--g)}
+.badge{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);border:1px solid var(--border);padding:5px 12px;border-radius:100px;background:rgba(34,197,94,0.06)}
+.layout{display:grid;grid-template-columns:380px 1fr;gap:20px;align-items:start}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;margin-bottom:14px}
+.ph{padding:16px 20px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:9px}
+.pi{width:28px;height:28px;background:var(--glow);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.pt{font-size:14px;font-weight:700}
+.pb{padding:18px 20px;display:flex;flex-direction:column;gap:16px}
+label{display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:600;color:var(--dim);letter-spacing:.4px}
+input,textarea,select{font-family:'Noto Sans Thai',sans-serif;font-size:14px;background:var(--card2);border:1px solid var(--border);color:var(--text);border-radius:11px;padding:11px 14px;outline:none;transition:border-color .2s,box-shadow .2s;width:100%}
+input:focus,textarea:focus,select:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(34,197,94,.12)}
 input[type=password]{letter-spacing:2px}
-textarea{resize:vertical;min-height:85px}
+textarea{resize:vertical;min-height:80px}
 select option{background:#101a10}
-.style-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:4px}
-.style-btn{background:var(--card2);border:1px solid var(--border2);color:var(--dim);border-radius:10px;padding:10px 6px;font-family:'Noto Sans Thai',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;text-align:center}
-.style-btn:hover{border-color:var(--g);color:var(--g)}
-.style-btn.active{background:rgba(34,197,94,.15);border-color:var(--g);color:var(--g);box-shadow:0 0 12px rgba(34,197,94,.2)}
-.img-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
-.chip{background:var(--card2);border:1px solid var(--border2);color:var(--dim);border-radius:100px;padding:6px 13px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+.sgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:3px}
+.sbtn{background:var(--card2);border:1px solid var(--border2);color:var(--dim);border-radius:9px;padding:9px 5px;font-family:'Noto Sans Thai',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;text-align:center;line-height:1.4}
+.sbtn:hover{border-color:var(--g);color:var(--g)}
+.sbtn.on{background:rgba(34,197,94,.14);border-color:var(--g);color:var(--g)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:3px}
+.chip{background:var(--card2);border:1px solid var(--border2);color:var(--dim);border-radius:100px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
 .chip:hover{border-color:var(--g);color:var(--g)}
-.chip.active{background:rgba(34,197,94,.15);border-color:var(--g);color:var(--g)}
-.gen-btn{width:100%;background:linear-gradient(135deg,var(--g),var(--g2));border:none;color:#fff;font-family:'Noto Sans Thai',sans-serif;font-size:17px;font-weight:800;padding:16px;border-radius:14px;cursor:pointer;transition:all .3s;box-shadow:0 0 28px rgba(34,197,94,.3)}
-.gen-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 4px 40px rgba(34,197,94,.45)}
-.gen-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.progress-wrap{display:none;flex-direction:column;gap:10px}
-.progress-wrap.show{display:flex}
-.progress-step{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--dim);opacity:.4;transition:all .3s}
-.progress-step.active{opacity:1;color:var(--text)}
-.progress-step.done{opacity:.7;color:var(--g)}
-.step-dot{width:10px;height:10px;border-radius:50%;background:var(--border);flex-shrink:0;transition:all .3s}
-.progress-step.active .step-dot{background:var(--warn);box-shadow:0 0 8px var(--warn);animation:pulse 1s infinite}
-.progress-step.done .step-dot{background:var(--g);box-shadow:0 0 8px var(--g)}
+.chip.on{background:rgba(34,197,94,.14);border-color:var(--g);color:var(--g)}
+.gbtn{width:100%;background:linear-gradient(135deg,var(--g),var(--g2));border:none;color:#fff;font-family:'Noto Sans Thai',sans-serif;font-size:16px;font-weight:800;padding:15px;border-radius:13px;cursor:pointer;transition:all .3s;box-shadow:0 0 24px rgba(34,197,94,.28)}
+.gbtn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 4px 36px rgba(34,197,94,.42)}
+.gbtn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.prog{display:none;flex-direction:column;gap:9px}
+.prog.on{display:flex}
+.pstep{display:flex;align-items:center;gap:11px;font-size:13px;color:var(--dim);opacity:.4;transition:all .3s}
+.pstep.act{opacity:1;color:var(--text)}
+.pstep.done{opacity:.7;color:var(--g)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--border);flex-shrink:0;transition:all .3s}
+.pstep.act .dot{background:var(--warn);box-shadow:0 0 7px var(--warn);animation:pulse 1s infinite}
+.pstep.done .dot{background:var(--g);box-shadow:0 0 7px var(--g)}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.4)}}
-.output-panel{display:flex;flex-direction:column;gap:16px}
-.empty-state{background:var(--card);border:1px dashed var(--border);border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:80px 40px;text-align:center}
-.empty-icon{font-size:56px;opacity:.4}
-.empty-title{font-size:20px;font-weight:700;color:var(--dim)}
-.empty-sub{font-size:14px;color:var(--muted);opacity:.6}
-.fb-preview{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;display:none}
-.fb-preview.show{display:block}
-.fb-topbar{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border2)}
-.fb-label{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:1px}
-.copy-btn{background:rgba(34,197,94,.1);border:1px solid var(--border);color:var(--g);font-family:'Noto Sans Thai',sans-serif;font-size:13px;font-weight:600;padding:6px 14px;border-radius:8px;cursor:pointer;transition:all .2s}
-.copy-btn:hover{background:rgba(34,197,94,.2)}
-.fb-mock{background:#18191a;padding:14px}
-.fb-post{background:#242526;border-radius:12px;overflow:hidden;max-width:520px;margin:0 auto;box-shadow:0 4px 20px rgba(0,0,0,.4)}
-.fb-header{padding:14px 16px 10px;display:flex;align-items:center;gap:10px}
-.fb-avatar{width:42px;height:42px;background:linear-gradient(135deg,var(--g),var(--g2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.fb-name{font-size:15px;font-weight:700;color:#e4e6eb}
-.fb-time{font-size:12px;color:#b0b3b8;margin-top:2px}
-.fb-caption{padding:0 16px 12px;font-size:15px;color:#e4e6eb;line-height:1.6;white-space:pre-wrap}
-.fb-image-wrap{width:100%;background:var(--card2);min-height:180px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.fb-image-wrap img{width:100%;height:auto;display:block}
-.img-loading{display:flex;flex-direction:column;align-items:center;gap:12px;padding:40px;color:var(--dim);font-size:14px}
-.spin{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--g);border-radius:50%;animation:spin .8s linear infinite}
+.alert{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:var(--err);border-radius:11px;padding:11px 14px;font-size:13px;display:none;line-height:1.5}
+.alert.on{display:block}
+/* OUTPUT */
+.out{display:flex;flex-direction:column;gap:14px}
+.empty{background:var(--card);border:1px dashed var(--border);border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:70px 40px;text-align:center}
+.ei{font-size:52px;opacity:.35}
+.et{font-size:18px;font-weight:700;color:var(--dim)}
+.es{font-size:13px;color:var(--muted);opacity:.6}
+.acts{display:none;gap:9px}
+.acts.on{display:flex}
+.rbtn{flex:1;background:var(--card2);border:1px solid var(--border);color:var(--dim);font-family:'Noto Sans Thai',sans-serif;font-size:13px;font-weight:700;padding:10px;border-radius:11px;cursor:pointer;transition:all .2s}
+.rbtn:hover{border-color:var(--g);color:var(--g)}
+.rbtn.pri{background:linear-gradient(135deg,var(--g),var(--g2));border-color:transparent;color:#fff;box-shadow:0 0 18px rgba(34,197,94,.22)}
+/* FB */
+.fbprev{background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;display:none}
+.fbprev.on{display:block}
+.fbtop{padding:13px 17px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border2)}
+.fblabel{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px}
+.cpbtn{background:rgba(34,197,94,.1);border:1px solid var(--border);color:var(--g);font-family:'Noto Sans Thai',sans-serif;font-size:12px;font-weight:600;padding:5px 12px;border-radius:7px;cursor:pointer;transition:all .2s}
+.cpbtn:hover{background:rgba(34,197,94,.2)}
+.fbmock{background:#18191a;padding:12px}
+.fbpost{background:#242526;border-radius:11px;overflow:hidden;max-width:500px;margin:0 auto;box-shadow:0 4px 18px rgba(0,0,0,.4)}
+.fbh{padding:13px 15px 9px;display:flex;align-items:center;gap:9px}
+.fba{width:40px;height:40px;background:linear-gradient(135deg,var(--g),var(--g2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.fbn{font-size:14px;font-weight:700;color:#e4e6eb}
+.fbt{font-size:11px;color:#b0b3b8;margin-top:2px}
+.fbc{padding:0 15px 11px;font-size:14px;color:#e4e6eb;line-height:1.6;white-space:pre-wrap}
+.fbimg{width:100%;background:var(--card2);min-height:160px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.fbimg img{width:100%;height:auto;display:block}
+.iload{display:flex;flex-direction:column;align-items:center;gap:10px;padding:36px;color:var(--dim);font-size:13px}
+.spin{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--g);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.fb-actions{padding:8px 16px 12px;display:flex;gap:4px}
-.fb-act{flex:1;background:transparent;border:none;color:#b0b3b8;font-size:14px;font-weight:600;padding:8px;border-radius:8px;cursor:default;text-align:center}
-.caption-card{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;display:none}
-.caption-card.show{display:block}
-.caption-header{padding:14px 18px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between}
-.caption-title{font-size:14px;font-weight:700;color:var(--text)}
-.caption-body{padding:18px}
-.caption-text{font-size:15px;color:var(--dim);line-height:1.8;white-space:pre-wrap;background:var(--card2);border:1px solid var(--border2);border-radius:12px;padding:16px;min-height:100px}
-.hash-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.hash-tag{background:rgba(34,197,94,.1);color:var(--g);border-radius:100px;padding:4px 12px;font-size:13px;font-weight:600}
-.alert{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:var(--err);border-radius:12px;padding:12px 16px;font-size:14px;display:none;line-height:1.5}
-.alert.show{display:block}
-.action-row{display:none;gap:10px}
-.action-row.show{display:flex}
-.regen-btn{flex:1;background:var(--card2);border:1px solid var(--border);color:var(--dim);font-family:'Noto Sans Thai',sans-serif;font-size:13px;font-weight:700;padding:11px;border-radius:12px;cursor:pointer;transition:all .2s}
-.regen-btn:hover{border-color:var(--g);color:var(--g)}
-.regen-btn.primary{background:linear-gradient(135deg,var(--g),var(--g2));border-color:transparent;color:#fff;box-shadow:0 0 20px rgba(34,197,94,.25)}
-.hint{font-size:12px;color:var(--muted);opacity:.7;line-height:1.5}
+.fbacts{padding:7px 15px 11px;display:flex;gap:3px}
+.fbact{flex:1;background:transparent;border:none;color:#b0b3b8;font-size:13px;font-weight:600;padding:7px;border-radius:7px;cursor:default;text-align:center}
+/* CAPTION CARD */
+.capcard{background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;display:none}
+.capcard.on{display:block}
+.caph{padding:13px 17px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between}
+.capt{font-size:13px;font-weight:700}
+.capb{padding:16px}
+.captxt{font-size:14px;color:var(--dim);line-height:1.8;white-space:pre-wrap;background:var(--card2);border:1px solid var(--border2);border-radius:11px;padding:14px;min-height:90px}
+.hrow{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.htag{background:rgba(34,197,94,.1);color:var(--g);border-radius:100px;padding:3px 11px;font-size:12px;font-weight:600}
 a{color:var(--g);text-decoration:none}
+.hint{font-size:11px;color:var(--muted);opacity:.7;line-height:1.5}
 </style>
 </head>
 <body>
@@ -98,128 +100,115 @@ a{color:var(--g);text-decoration:none}
   <div class="header">
     <div class="logo">
       <div class="logo-box">🏡</div>
-      <div class="logo-text">บ้าน<span>เขียว</span> <span style="font-size:13px;font-weight:400;color:var(--muted)">Content AI</span></div>
+      <div class="logo-text">บ้าน<span class="g">เขียว</span> <span style="font-size:12px;font-weight:400;color:var(--muted)">Content AI</span></div>
     </div>
-    <div class="header-badge">AUTO GENERATOR v2.0</div>
+    <div class="badge">AUTO GENERATOR v3.0</div>
   </div>
 
-  <div class="main">
+  <div class="layout">
+    <!-- LEFT -->
     <div>
-      <!-- API KEY -->
       <div class="panel">
-        <div class="panel-header">
-          <div class="panel-icon">🔑</div>
-          <div class="panel-title">Anthropic API Key</div>
-        </div>
-        <div class="panel-body">
-          <label>
-            Claude API Key (สำหรับเขียน Caption)
+        <div class="ph"><div class="pi">🔑</div><div class="pt">Anthropic API Key</div></div>
+        <div class="pb">
+          <label>Claude API Key (สำหรับเขียน Caption)
             <input type="password" id="claudeKey" placeholder="sk-ant-api03-...">
           </label>
-          <div class="hint">รับฟรีได้ที่ → <a href="https://console.anthropic.com/keys" target="_blank">console.anthropic.com/keys</a><br>⚠️ เก็บ Key ไว้กับตัวเอง อย่าแชร์ให้ใคร</div>
+          <div class="hint">รับฟรีที่ → <a href="https://console.anthropic.com/keys" target="_blank">console.anthropic.com/keys</a></div>
         </div>
       </div>
 
-      <!-- CONTENT SETTINGS -->
       <div class="panel">
-        <div class="panel-header">
-          <div class="panel-icon">✍️</div>
-          <div class="panel-title">ตั้งค่า Content</div>
-        </div>
-        <div class="panel-body">
-          <label>
-            หัวข้อ / โปรโมชัน
-            <textarea id="topic" placeholder="เช่น: แนะนำ AI ตอบแชทอัตโนมัติ, โปรสมัครสมาชิก, ชวนเพื่อนมาทีม Affiliate..."></textarea>
+        <div class="ph"><div class="pi">✍️</div><div class="pt">ตั้งค่า Content</div></div>
+        <div class="pb">
+          <label>หัวข้อ / โปรโมชัน
+            <textarea id="topic" placeholder="เช่น: แนะนำ AI ตอบแชทอัตโนมัติ, โปรสมัครสมาชิก, ชวนสมัครทีม Affiliate..."></textarea>
           </label>
-          <label>
-            สไตล์ Caption
-            <div class="style-grid">
-              <button class="style-btn active" onclick="setStyle(this,'question')">❓ คำถาม<br><span style="font-size:11px;font-weight:400">Engagement</span></button>
-              <button class="style-btn" onclick="setStyle(this,'story')">📖 เรื่องเล่า<br><span style="font-size:11px;font-weight:400">Trust</span></button>
-              <button class="style-btn" onclick="setStyle(this,'data')">📊 ตัวเลข<br><span style="font-size:11px;font-weight:400">ยิงแอด</span></button>
+          <label>สไตล์ Caption
+            <div class="sgrid">
+              <button class="sbtn on" onclick="setSt(this,'question')">❓ คำถาม<br><small>Engagement</small></button>
+              <button class="sbtn" onclick="setSt(this,'story')">📖 เรื่องเล่า<br><small>Trust</small></button>
+              <button class="sbtn" onclick="setSt(this,'data')">📊 ตัวเลข<br><small>ยิงแอด</small></button>
             </div>
           </label>
-          <label>
-            สไตล์รูป
-            <div class="img-chips">
-              <div class="chip active" onclick="setChip(this,'modern digital commerce green theme minimal')">📱 Digital</div>
-              <div class="chip" onclick="setChip(this,'minimal clean lifestyle green white nature')">🌿 Minimal</div>
-              <div class="chip" onclick="setChip(this,'vibrant energetic business success team happy')">🎉 Energetic</div>
-              <div class="chip" onclick="setChip(this,'futuristic tech ai neon green circuit dark')">🤖 Tech</div>
+          <label>สไตล์รูป
+            <div class="chips">
+              <div class="chip on" onclick="setCh(this,'digital marketing green modern commerce')">📱 Digital</div>
+              <div class="chip" onclick="setCh(this,'minimal clean lifestyle nature green white')">🌿 Minimal</div>
+              <div class="chip" onclick="setCh(this,'vibrant energetic business success happy team')">🎉 Energetic</div>
+              <div class="chip" onclick="setCh(this,'futuristic tech ai neon green dark circuit')">🤖 Tech</div>
             </div>
           </label>
-          <label>
-            กลุ่มเป้าหมาย
-            <select id="audience">
-              <option value="มือใหม่อยากมีรายได้ออนไลน์">มือใหม่อยากมีรายได้ออนไลน์</option>
-              <option value="แม่ค้าออนไลน์ที่อยากขยายยอด">แม่ค้าออนไลน์อยากขยายยอด</option>
-              <option value="คนทำงานประจำอยากมีรายได้เสริม">คนทำงานประจำ / รายได้เสริม</option>
-              <option value="SME เจ้าของธุรกิจ">SME / เจ้าของธุรกิจ</option>
+          <label>กลุ่มเป้าหมาย
+            <select id="aud">
+              <option>มือใหม่อยากมีรายได้ออนไลน์</option>
+              <option>แม่ค้าออนไลน์ที่อยากขยายยอด</option>
+              <option>คนทำงานประจำอยากมีรายได้เสริม</option>
+              <option>SME เจ้าของธุรกิจ</option>
             </select>
           </label>
         </div>
       </div>
 
-      <!-- GENERATE -->
       <div class="panel">
-        <div class="panel-body">
-          <div class="alert" id="alertBox"></div>
-          <button class="gen-btn" id="genBtn" onclick="generate()">⚡ สร้าง Content อัตโนมัติ</button>
-          <div class="progress-wrap" id="progressWrap">
-            <div class="progress-step" id="s1"><div class="step-dot"></div><span>กำลังเขียน Caption ด้วย Claude AI...</span></div>
-            <div class="progress-step" id="s2"><div class="step-dot"></div><span>กำลังสร้างรูปภาพ...</span></div>
-            <div class="progress-step" id="s3"><div class="step-dot"></div><span>ประกอบ Facebook Post...</span></div>
+        <div class="pb">
+          <div class="alert" id="alrt"></div>
+          <button class="gbtn" id="gBtn" onclick="gen()">⚡ สร้าง Content อัตโนมัติ</button>
+          <div class="prog" id="prog">
+            <div class="pstep" id="p1"><div class="dot"></div><span>กำลังเขียน Caption ด้วย Claude AI...</span></div>
+            <div class="pstep" id="p2"><div class="dot"></div><span>กำลังสร้างรูปภาพ...</span></div>
+            <div class="pstep" id="p3"><div class="dot"></div><span>ประกอบ Facebook Post...</span></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- RIGHT OUTPUT -->
-    <div class="output-panel">
-      <div class="empty-state" id="emptyState">
-        <div class="empty-icon">🖼️</div>
-        <div class="empty-title">Content จะแสดงที่นี่</div>
-        <div class="empty-sub">กรอก API Key + หัวข้อ แล้วกด "สร้าง Content"</div>
+    <!-- RIGHT -->
+    <div class="out">
+      <div class="empty" id="emp">
+        <div class="ei">🖼️</div>
+        <div class="et">Content จะแสดงที่นี่</div>
+        <div class="es">กรอก API Key + หัวข้อ แล้วกด "สร้าง Content"</div>
       </div>
 
-      <div class="action-row" id="actionRow">
-        <button class="regen-btn" onclick="regenCaption()">🔄 Caption ใหม่</button>
-        <button class="regen-btn" onclick="regenImage()">🎨 รูปใหม่</button>
-        <button class="regen-btn primary" onclick="generate()">⚡ สร้างใหม่</button>
+      <div class="acts" id="acts">
+        <button class="rbtn" onclick="regenCap()">🔄 Caption ใหม่</button>
+        <button class="rbtn" onclick="regenImg()">🎨 รูปใหม่</button>
+        <button class="rbtn pri" onclick="gen()">⚡ สร้างใหม่</button>
       </div>
 
-      <div class="fb-preview" id="fbPreview">
-        <div class="fb-topbar">
-          <span class="fb-label">FACEBOOK POST PREVIEW</span>
-          <button class="copy-btn" onclick="copyCaption()">📋 Copy Caption</button>
+      <div class="fbprev" id="fbprev">
+        <div class="fbtop">
+          <span class="fblabel">FACEBOOK POST PREVIEW</span>
+          <button class="cpbtn" onclick="copyAll()">📋 Copy Caption</button>
         </div>
-        <div class="fb-mock">
-          <div class="fb-post">
-            <div class="fb-header">
-              <div class="fb-avatar">🏡</div>
-              <div><div class="fb-name">บ้านเขียว</div><div class="fb-time">เมื่อสักครู่ · 🌐</div></div>
+        <div class="fbmock">
+          <div class="fbpost">
+            <div class="fbh">
+              <div class="fba">🏡</div>
+              <div><div class="fbn">บ้านเขียว</div><div class="fbt">เมื่อสักครู่ · 🌐</div></div>
             </div>
-            <div class="fb-caption" id="fbCaption"></div>
-            <div class="fb-image-wrap" id="fbImageWrap">
-              <div class="img-loading"><div class="spin"></div><span>กำลังสร้างรูป...</span></div>
+            <div class="fbc" id="fbc"></div>
+            <div class="fbimg" id="fbimg">
+              <div class="iload"><div class="spin"></div><span>กำลังสร้างรูป...</span></div>
             </div>
-            <div class="fb-actions">
-              <div class="fb-act">👍 ถูกใจ</div>
-              <div class="fb-act">💬 แสดงความคิดเห็น</div>
-              <div class="fb-act">↗️ แชร์</div>
+            <div class="fbacts">
+              <div class="fbact">👍 ถูกใจ</div>
+              <div class="fbact">💬 แสดงความคิดเห็น</div>
+              <div class="fbact">↗️ แชร์</div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="caption-card" id="captionCard">
-        <div class="caption-header">
-          <div class="caption-title">✍️ Caption เต็ม</div>
-          <button class="copy-btn" onclick="copyCaption()">📋 Copy</button>
+      <div class="capcard" id="capcard">
+        <div class="caph">
+          <div class="capt">✍️ Caption เต็ม (Copy ไปใช้)</div>
+          <button class="cpbtn" onclick="copyAll()">📋 Copy</button>
         </div>
-        <div class="caption-body">
-          <div class="caption-text" id="captionFull"></div>
-          <div class="hash-row" id="hashRow"></div>
+        <div class="capb">
+          <div class="captxt" id="captxt"></div>
+          <div class="hrow" id="hrow"></div>
         </div>
       </div>
     </div>
@@ -227,181 +216,148 @@ a{color:var(--g);text-decoration:none}
 </div>
 
 <script>
-let selectedStyle='question';
-let selectedImgStyle='modern digital commerce green theme minimal';
-let captionText='';
-let hashtagText='';
+let style='question', imgStyle='digital marketing green modern commerce';
+let capText='', hashText='';
 
-function setStyle(btn,val){
-  document.querySelectorAll('.style-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active'); selectedStyle=val;
-}
-function setChip(chip,val){
-  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
-  chip.classList.add('active'); selectedImgStyle=val;
-}
-function showAlert(msg){const a=document.getElementById('alertBox');a.innerHTML=msg;a.classList.add('show');}
-function hideAlert(){document.getElementById('alertBox').classList.remove('show');}
-function setStep(n,state){const el=document.getElementById('s'+n);el.classList.remove('active','done');if(state)el.classList.add(state);}
+function setSt(b,v){document.querySelectorAll('.sbtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');style=v;}
+function setCh(c,v){document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');imgStyle=v;}
+function showErr(m){const a=document.getElementById('alrt');a.innerHTML=m;a.classList.add('on');}
+function hideErr(){document.getElementById('alrt').classList.remove('on');}
+function sp(n,s){const e=document.getElementById('p'+n);e.classList.remove('act','done');if(s)e.classList.add(s);}
 
-async function generate(){
-  const claudeKey=document.getElementById('claudeKey').value.trim();
+async function gen(){
+  const key=document.getElementById('claudeKey').value.trim();
   const topic=document.getElementById('topic').value.trim();
-  const audience=document.getElementById('audience').value;
-  hideAlert();
-  if(!claudeKey){showAlert('❌ กรุณากรอก <b>Anthropic API Key</b><br><small>รับได้ที่ <a href="https://console.anthropic.com/keys" target="_blank">console.anthropic.com/keys</a></small>');return;}
-  if(!topic){showAlert('❌ กรุณากรอกหัวข้อ Content ก่อน');return;}
+  const aud=document.getElementById('aud').value;
+  hideErr();
+  if(!key){showErr('❌ กรุณากรอก <b>Anthropic API Key</b><br><small>รับที่ → <a href="https://console.anthropic.com/keys" target="_blank">console.anthropic.com/keys</a></small>');return;}
+  if(!topic){showErr('❌ กรุณากรอกหัวข้อ Content ก่อน');return;}
 
-  document.getElementById('genBtn').disabled=true;
-  document.getElementById('emptyState').style.display='none';
-  document.getElementById('progressWrap').classList.add('show');
-  document.getElementById('fbPreview').classList.remove('show');
-  document.getElementById('captionCard').classList.remove('show');
-  document.getElementById('actionRow').classList.remove('show');
-  document.getElementById('fbCaption').textContent='';
-  document.getElementById('captionFull').textContent='';
-  document.getElementById('hashRow').innerHTML='';
-  document.getElementById('fbImageWrap').innerHTML='<div class="img-loading"><div class="spin"></div><span>กำลังสร้างรูป...</span></div>';
+  document.getElementById('gBtn').disabled=true;
+  document.getElementById('emp').style.display='none';
+  document.getElementById('prog').classList.add('on');
+  document.getElementById('fbprev').classList.remove('on');
+  document.getElementById('capcard').classList.remove('on');
+  document.getElementById('acts').classList.remove('on');
+  document.getElementById('fbc').textContent='';
+  document.getElementById('captxt').textContent='';
+  document.getElementById('hrow').innerHTML='';
+  document.getElementById('fbimg').innerHTML='<div class="iload"><div class="spin"></div><span>กำลังสร้างรูป...</span></div>';
 
-  setStep(1,'active');setStep(2,'');setStep(3,'');
+  sp(1,'act');sp(2,'');sp(3,'');
 
   try{
-    // Step 1: Claude Caption
-    const caption=await generateCaption(claudeKey,topic,audience,selectedStyle);
-    captionText=caption.text; hashtagText=caption.hashtags;
-    setStep(1,'done');setStep(2,'active');
+    const cap=await getCap(key,topic,aud,style);
+    capText=cap.text; hashText=cap.hashtags;
+    sp(1,'done');sp(2,'act');
 
-    // Show preview
-    document.getElementById('fbPreview').classList.add('show');
-    document.getElementById('captionCard').classList.add('show');
-    document.getElementById('fbCaption').textContent=captionText;
-    document.getElementById('captionFull').textContent=captionText+'\n\n'+hashtagText;
-    const hr=document.getElementById('hashRow');
-    hashtagText.split(' ').filter(h=>h.startsWith('#')).forEach(h=>{
-      const d=document.createElement('div');d.className='hash-tag';d.textContent=h;hr.appendChild(d);
+    document.getElementById('fbprev').classList.add('on');
+    document.getElementById('capcard').classList.add('on');
+    document.getElementById('fbc').textContent=capText;
+    document.getElementById('captxt').textContent=capText+'\n\n'+hashText;
+    const hr=document.getElementById('hrow');
+    hashText.split(' ').filter(h=>h.startsWith('#')).forEach(h=>{
+      const d=document.createElement('div');d.className='htag';d.textContent=h;hr.appendChild(d);
     });
 
-    // Step 2: Image via Pollinations (free, no key needed, CORS ok)
-    await loadImage(topic);
-    setStep(2,'done');setStep(3,'active');
-    await new Promise(r=>setTimeout(r,500));
-    setStep(3,'done');
-    document.getElementById('actionRow').classList.add('show');
-
+    await doImg(topic);
+    sp(2,'done');sp(3,'act');
+    await new Promise(r=>setTimeout(r,400));
+    sp(3,'done');
+    document.getElementById('acts').classList.add('on');
   }catch(e){
-    showAlert('❌ '+e.message);
-    document.getElementById('emptyState').style.display='';
-    setStep(1,'');setStep(2,'');setStep(3,'');
+    showErr('❌ '+e.message);
+    document.getElementById('emp').style.display='';
+    sp(1,'');sp(2,'');sp(3,'');
   }
-  document.getElementById('genBtn').disabled=false;
-  document.getElementById('progressWrap').classList.remove('show');
+  document.getElementById('gBtn').disabled=false;
+  document.getElementById('prog').classList.remove('on');
 }
 
-async function generateCaption(apiKey,topic,audience,style){
-  const styleMap={
-    question:'Hook แบบคำถาม (เริ่มด้วยคำถามที่ทำให้คนอยากตอบ)',
-    story:'Hook แบบเรื่องเล่า (เล่าเรื่องส่วนตัว/ลูกค้า กระตุ้น Trust)',
-    data:'Hook แบบตัวเลข (ขึ้นต้นด้วย List หรือตัวเลข เช่น "3 สิ่งที่...")'
-  };
-
+async function getCap(key,topic,aud,style){
+  const sm={question:'Hook แบบคำถาม เริ่มด้วยคำถามที่ทำให้คนอยากตอบ',story:'Hook แบบเรื่องเล่า เล่าเรื่องส่วนตัวหรือลูกค้า กระตุ้น Trust',data:'Hook แบบตัวเลข ขึ้นต้นด้วย List หรือตัวเลข เช่น 3 สิ่งที่...'};
   const res=await fetch('https://api.anthropic.com/v1/messages',{
     method:'POST',
     headers:{
       'Content-Type':'application/json',
-      'x-api-key':apiKey,
+      'x-api-key':key,
       'anthropic-version':'2023-06-01',
       'anthropic-dangerous-direct-browser-access':'true'
     },
     body:JSON.stringify({
       model:'claude-sonnet-4-20250514',
-      max_tokens:1000,
-      system:`คุณคือ Content Creator ผู้เชี่ยวชาญสำหรับแบรนด์ "บ้านเขียว (Green AI Commerce)"
+      max_tokens:900,
+      system:`คุณคือ Content Creator ผู้เชี่ยวชาญแบรนด์ "บ้านเขียว (Green AI Commerce)"
 Brand Promise: เริ่มง่าย ขายได้จริง มีรายได้เกิดขึ้น
 Brand Voice: พูดง่าย เป็นมิตร เน้นผลลัพธ์จริง กระตุ้นให้ลงมือทำ ห้ามใช้ภาษาวิชาการ
-ตอบเป็น JSON เท่านั้น ไม่มี backtick ไม่มีคำอธิบาย
+ตอบเป็น JSON เท่านั้น ไม่มี backtick ไม่มีคำอธิบายใดๆ
 Format: {"text":"...","hashtags":"#..."}
-- text: Caption ภาษาไทย 150-250 คำ มี Hook+Body+CTA
+- text: Caption ภาษาไทย 150-250 คำ มี Hook+Body+CTA+Emoji
 - hashtags: hashtag 8-10 อัน คั่นด้วย space`,
-      messages:[{role:'user',content:`เขียน Facebook Caption
-หัวข้อ: ${topic}
-กลุ่มเป้าหมาย: ${audience}
-สไตล์: ${styleMap[style]}
-ต้องมี Hook ที่แข็งแกร่ง, Pain ของกลุ่มเป้าหมาย, ประโยชน์จากบ้านเขียว, CTA ชัดเจน, Emoji พอดี`}]
+      messages:[{role:'user',content:`เขียน Facebook Caption\nหัวข้อ: ${topic}\nกลุ่มเป้าหมาย: ${aud}\nสไตล์: ${sm[style]}`}]
     })
   });
-
-  if(res.status===401){throw new Error('API Key ไม่ถูกต้อง กรุณาตรวจสอบ Anthropic API Key');}
-  if(res.status===429){throw new Error('API ถูกใช้งานเกินโควต้า กรุณาลองใหม่ภายหลัง');}
-  if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error('Claude API Error: '+(e.error?.message||res.status));}
-
-  const data=await res.json();
-  const raw=data.content?.[0]?.text||'';
-  try{
-    const clean=raw.replace(/```json|```/g,'').trim();
-    return JSON.parse(clean);
-  }catch{
-    return{text:raw,hashtags:'#บ้านเขียว #รายได้ออนไลน์ #ขายออนไลน์'};
-  }
+  if(res.status===401)throw new Error('API Key ไม่ถูกต้อง — ตรวจสอบที่ console.anthropic.com/keys');
+  if(res.status===403)throw new Error('API Key ไม่มีสิทธิ์ใช้งาน — ตรวจสอบ Billing ที่ console.anthropic.com');
+  if(res.status===429)throw new Error('ใช้งาน API เกินโควต้า กรุณาลองใหม่ภายหลัง');
+  if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error('Claude Error: '+(e.error?.message||res.status));}
+  const d=await res.json();
+  const raw=d.content?.[0]?.text||'';
+  try{return JSON.parse(raw.replace(/```json|```/g,'').trim());}
+  catch{return{text:raw,hashtags:'#บ้านเขียว #รายได้ออนไลน์ #ขายออนไลน์'};}
 }
 
-async function loadImage(topic){
-  const imgPrompt=encodeURIComponent(`${selectedImgStyle}, thai online business, green color, professional, ${topic}, 4k quality`);
-  const seed=Math.floor(Math.random()*9999);
-  const url=`https://image.pollinations.ai/prompt/${imgPrompt}?width=1080&height=1080&seed=${seed}&nologo=true`;
-
-  return new Promise((resolve,reject)=>{
+async function doImg(topic){
+  const p=encodeURIComponent(`${imgStyle}, thai online business, green theme, ${topic}, 4k, professional`);
+  const url=`https://image.pollinations.ai/prompt/${p}?width=1080&height=1080&seed=${Math.floor(Math.random()*9999)}&nologo=true`;
+  return new Promise(resolve=>{
     const img=new Image();
     img.crossOrigin='anonymous';
+    const t=setTimeout(()=>{document.getElementById('fbimg').innerHTML='<div class="iload" style="color:var(--err)">⏱️ โหลดรูปนานเกิน กด "รูปใหม่"</div>';resolve();},18000);
     img.onload=()=>{
-      const wrap=document.getElementById('fbImageWrap');
-      wrap.innerHTML='';
-      wrap.appendChild(img);
-      img.style.width='100%';img.style.height='auto';img.style.display='block';
-      resolve();
+      clearTimeout(t);
+      const w=document.getElementById('fbimg');
+      w.innerHTML='';
+      Object.assign(img.style,{width:'100%',height:'auto',display:'block'});
+      w.appendChild(img);resolve();
     };
-    img.onerror=()=>{
-      document.getElementById('fbImageWrap').innerHTML='<div class="img-loading" style="color:var(--err)">⚠️ โหลดรูปไม่สำเร็จ ลองใหม่อีกครั้ง</div>';
-      resolve(); // don't reject, caption still works
-    };
+    img.onerror=()=>{clearTimeout(t);document.getElementById('fbimg').innerHTML='<div class="iload" style="color:var(--err)">⚠️ โหลดรูปไม่ได้ กด "รูปใหม่"</div>';resolve();};
     img.src=url;
-    // timeout
-    setTimeout(()=>{if(!img.complete){img.src='';document.getElementById('fbImageWrap').innerHTML='<div class="img-loading" style="color:var(--err)">⏱️ โหลดรูปนานเกินไป กด "รูปใหม่"</div>';resolve();}},15000);
   });
 }
 
-async function regenCaption(){
-  const claudeKey=document.getElementById('claudeKey').value.trim();
+async function regenCap(){
+  const key=document.getElementById('claudeKey').value.trim();
   const topic=document.getElementById('topic').value.trim();
-  const audience=document.getElementById('audience').value;
-  if(!claudeKey||!topic)return;
-  document.getElementById('fbCaption').textContent='⏳ กำลังเขียนใหม่...';
-  document.getElementById('genBtn').disabled=true;
+  const aud=document.getElementById('aud').value;
+  if(!key||!topic)return;
+  document.getElementById('gBtn').disabled=true;
+  document.getElementById('fbc').textContent='⏳ กำลังเขียนใหม่...';
   try{
-    const c=await generateCaption(claudeKey,topic,audience,selectedStyle);
-    captionText=c.text;hashtagText=c.hashtags;
-    document.getElementById('fbCaption').textContent=captionText;
-    document.getElementById('captionFull').textContent=captionText+'\n\n'+hashtagText;
-    const hr=document.getElementById('hashRow');hr.innerHTML='';
-    hashtagText.split(' ').filter(h=>h.startsWith('#')).forEach(h=>{
-      const d=document.createElement('div');d.className='hash-tag';d.textContent=h;hr.appendChild(d);
-    });
-  }catch(e){showAlert('❌ '+e.message);}
-  document.getElementById('genBtn').disabled=false;
+    const c=await getCap(key,topic,aud,style);
+    capText=c.text;hashText=c.hashtags;
+    document.getElementById('fbc').textContent=capText;
+    document.getElementById('captxt').textContent=capText+'\n\n'+hashText;
+    const hr=document.getElementById('hrow');hr.innerHTML='';
+    hashText.split(' ').filter(h=>h.startsWith('#')).forEach(h=>{const d=document.createElement('div');d.className='htag';d.textContent=h;hr.appendChild(d);});
+  }catch(e){showErr('❌ '+e.message);}
+  document.getElementById('gBtn').disabled=false;
 }
 
-async function regenImage(){
+async function regenImg(){
   const topic=document.getElementById('topic').value.trim();
-  document.getElementById('fbImageWrap').innerHTML='<div class="img-loading"><div class="spin"></div><span>กำลังสร้างรูปใหม่...</span></div>';
-  await loadImage(topic||'บ้านเขียว online business');
+  document.getElementById('fbimg').innerHTML='<div class="iload"><div class="spin"></div><span>กำลังสร้างรูปใหม่...</span></div>';
+  await doImg(topic||'บ้านเขียว online business');
 }
 
-function copyCaption(){
-  const txt=document.getElementById('captionFull').textContent||document.getElementById('fbCaption').textContent;
+function copyAll(){
+  const txt=(document.getElementById('captxt').textContent||document.getElementById('fbc').textContent).trim();
+  if(!txt)return;
   navigator.clipboard.writeText(txt).then(()=>{
-    document.querySelectorAll('.copy-btn').forEach(b=>{b.textContent='✅ Copied!';setTimeout(()=>b.textContent='📋 Copy Caption',2000);});
+    document.querySelectorAll('.cpbtn').forEach(b=>{b.textContent='✅ Copied!';setTimeout(()=>b.textContent='📋 Copy Caption',2000);});
   }).catch(()=>{
     const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
-    document.querySelectorAll('.copy-btn').forEach(b=>{b.textContent='✅ Copied!';setTimeout(()=>b.textContent='📋 Copy Caption',2000);});
+    document.querySelectorAll('.cpbtn').forEach(b=>{b.textContent='✅ Copied!';setTimeout(()=>b.textContent='📋 Copy Caption',2000);});
   });
 }
 </script>
