@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>บ้านเขียว · ฐานข้อมูลลูกค้า</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700;800;900&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--g:#22c55e;--g2:#16a34a;--glow:rgba(34,197,94,0.18);--bg:#060d06;--card:#101a10;--card2:#142014;--border:rgba(34,197,94,0.2);--border2:rgba(34,197,94,0.1);--text:#f0fdf0;--dim:#86efac;--muted:#4ade80;--err:#f87171;--warn:#fbbf24}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans Thai',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(34,197,94,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+.wrap{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:28px 20px 60px}
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:12px}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-box{width:46px;height:46px;background:linear-gradient(135deg,var(--g),var(--g2));border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 0 20px var(--glow)}
+.logo-text{font-size:22px;font-weight:800}.logo-text .g{color:var(--g)}
+.badge{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);border:1px solid var(--border);padding:5px 12px;border-radius:100px;background:rgba(34,197,94,0.06)}
+.nav{display:flex;gap:8px;margin-top:6px}
+.nav a{font-size:12px;color:var(--muted);border:1px solid var(--border2);padding:6px 12px;border-radius:100px;text-decoration:none;transition:all .2s}
+.nav a:hover,.nav a.on{border-color:var(--g);color:var(--g);background:rgba(34,197,94,.08)}
+.layout{display:grid;grid-template-columns:380px 1fr;gap:20px;align-items:start}
+@media (max-width:880px){.layout{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;margin-bottom:14px}
+.ph{padding:16px 20px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:9px}
+.pi{width:28px;height:28px;background:var(--glow);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.pt{font-size:14px;font-weight:700}
+.pb{padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:600;color:var(--dim);letter-spacing:.4px}
+input,textarea,select{font-family:'Noto Sans Thai',sans-serif;font-size:14px;background:var(--card2);border:1px solid var(--border);color:var(--text);border-radius:11px;padding:11px 14px;outline:none;transition:border-color .2s,box-shadow .2s;width:100%}
+input:focus,textarea:focus,select:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(34,197,94,.12)}
+textarea{resize:vertical;min-height:70px}
+.gbtn{width:100%;background:linear-gradient(135deg,var(--g),var(--g2));border:none;color:#fff;font-family:'Noto Sans Thai',sans-serif;font-size:15px;font-weight:800;padding:13px;border-radius:12px;cursor:pointer;transition:all .3s;box-shadow:0 0 24px rgba(34,197,94,.28)}
+.gbtn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 4px 36px rgba(34,197,94,.42)}
+.gbtn:disabled{opacity:.45;cursor:not-allowed}
+.gbtn.sec{background:var(--card2);border:1px solid var(--border);color:var(--dim);box-shadow:none}
+.gbtn.sec:hover{border-color:var(--g);color:var(--g);transform:none;box-shadow:none}
+.btnrow{display:flex;gap:8px}
+.alert{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:var(--err);border-radius:11px;padding:11px 14px;font-size:13px;display:none;line-height:1.5}
+.alert.on{display:block}
+.alert.ok{background:rgba(34,197,94,.1);border-color:var(--border);color:var(--g)}
+/* TABLE */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px}
+.stat .k{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px}
+.stat .v{font-size:24px;font-weight:800;color:var(--g);margin-top:4px}
+.toolbar{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.toolbar input{flex:1;min-width:200px}
+.tbl-wrap{background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden}
+.tbl-top{padding:14px 20px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.tbl-title{font-size:14px;font-weight:700;display:flex;align-items:center;gap:9px}
+.tbl-title .pi{width:28px;height:28px;background:var(--glow);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.tbl-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--border2)}
+th{background:var(--card2);font-size:11px;color:var(--muted);font-weight:700;letter-spacing:1px;text-transform:uppercase;position:sticky;top:0}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(34,197,94,.04)}
+td.nm{font-weight:700;color:var(--text)}
+td.ph{color:var(--dim);font-family:'Space Mono',monospace;white-space:nowrap}
+td.em{color:var(--muted);font-size:13px}
+td.act{text-align:right;white-space:nowrap}
+.ibtn{background:var(--card2);border:1px solid var(--border2);color:var(--dim);padding:6px 10px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;margin-left:5px;transition:all .2s;font-family:'Noto Sans Thai',sans-serif}
+.ibtn:hover{border-color:var(--g);color:var(--g)}
+.ibtn.del:hover{border-color:var(--err);color:var(--err)}
+.empty-row{padding:50px 20px;text-align:center;color:var(--muted)}
+.empty-row .ei{font-size:48px;opacity:.3;margin-bottom:10px}
+.empty-row .et{font-size:15px;font-weight:700;color:var(--dim)}
+.empty-row .es{font-size:12px;opacity:.6;margin-top:5px}
+.hint{font-size:11px;color:var(--muted);opacity:.7;line-height:1.5}
+.editing{background:rgba(251,191,36,.08)!important;border-left:3px solid var(--warn)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div>
+      <div class="logo">
+        <div class="logo-box">🏡</div>
+        <div class="logo-text">บ้าน<span class="g">เขียว</span> <span style="font-size:12px;font-weight:400;color:var(--muted)">Customer CRM</span></div>
+      </div>
+      <div class="nav">
+        <a href="index.html">← Content AI</a>
+        <a href="customers.html" class="on">👥 ฐานข้อมูลลูกค้า</a>
+      </div>
+    </div>
+    <div class="badge">CUSTOMER DB v1.0</div>
+  </div>
+
+  <div class="layout">
+    <!-- LEFT: FORM -->
+    <div>
+      <div class="panel">
+        <div class="ph"><div class="pi" id="formIcon">➕</div><div class="pt" id="formTitle">เพิ่มลูกค้าใหม่</div></div>
+        <div class="pb">
+          <div class="alert" id="alrt"></div>
+          <label>ชื่อ-นามสกุล <span style="color:var(--err)">*</span>
+            <input type="text" id="cName" placeholder="เช่น: คุณสมชาย ใจดี" autocomplete="off">
+          </label>
+          <label>เบอร์โทรศัพท์ <span style="color:var(--err)">*</span>
+            <input type="tel" id="cPhone" placeholder="เช่น: 081-234-5678" autocomplete="off">
+          </label>
+          <label>อีเมล
+            <input type="email" id="cEmail" placeholder="เช่น: name@example.com" autocomplete="off">
+          </label>
+          <label>หมายเหตุ
+            <textarea id="cNote" placeholder="โน๊ตเพิ่มเติม (ถ้ามี)"></textarea>
+          </label>
+          <div class="btnrow">
+            <button class="gbtn" id="saveBtn" onclick="saveCustomer()">💾 บันทึกลูกค้า</button>
+            <button class="gbtn sec" id="cancelBtn" onclick="cancelEdit()" style="display:none;flex:0 0 auto;padding:13px 18px">ยกเลิก</button>
+          </div>
+          <div class="hint">💡 ข้อมูลถูกบันทึกไว้ในเบราว์เซอร์ของคุณ (localStorage) — ไม่ส่งออกไปที่ใด</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="ph"><div class="pi">🛠️</div><div class="pt">จัดการข้อมูล</div></div>
+        <div class="pb">
+          <button class="gbtn sec" onclick="exportCSV()">📥 Export CSV</button>
+          <button class="gbtn sec" onclick="importCSV()">📤 Import CSV</button>
+          <input type="file" id="fileInput" accept=".csv" style="display:none" onchange="handleFile(event)">
+          <button class="gbtn sec" onclick="clearAll()" style="color:var(--err);border-color:rgba(248,113,113,.3)">🗑️ ล้างข้อมูลทั้งหมด</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: LIST -->
+    <div>
+      <div class="stats">
+        <div class="stat"><div class="k">ลูกค้าทั้งหมด</div><div class="v" id="totalCount">0</div></div>
+        <div class="stat"><div class="k">เพิ่มวันนี้</div><div class="v" id="todayCount">0</div></div>
+      </div>
+
+      <div class="toolbar">
+        <input type="text" id="search" placeholder="🔍 ค้นหา ชื่อ / เบอร์ / อีเมล..." oninput="render()">
+        <select id="sortBy" onchange="render()" style="width:auto">
+          <option value="new">ใหม่สุดก่อน</option>
+          <option value="old">เก่าสุดก่อน</option>
+          <option value="name">เรียงตามชื่อ</option>
+        </select>
+      </div>
+
+      <div class="tbl-wrap">
+        <div class="tbl-top">
+          <div class="tbl-title"><div class="pi">📋</div>รายชื่อลูกค้า</div>
+          <div class="hint" id="listInfo">0 รายการ</div>
+        </div>
+        <div class="tbl-scroll">
+          <table id="tbl">
+            <thead>
+              <tr>
+                <th>ชื่อ</th>
+                <th>เบอร์โทร</th>
+                <th>อีเมล</th>
+                <th>หมายเหตุ</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY='bk_customers_v1';
+let customers=[];
+let editId=null;
+
+function load(){
+  try{customers=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');}
+  catch{customers=[];}
+}
+function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(customers));}
+
+function showMsg(m,ok){
+  const a=document.getElementById('alrt');
+  a.innerHTML=m;
+  a.classList.add('on');
+  a.classList.toggle('ok',!!ok);
+  if(ok)setTimeout(()=>a.classList.remove('on'),2500);
+}
+function hideMsg(){document.getElementById('alrt').classList.remove('on');}
+
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+function validate(name,phone,email){
+  if(!name)return 'กรุณากรอกชื่อลูกค้า';
+  if(!phone)return 'กรุณากรอกเบอร์โทรศัพท์';
+  const digits=phone.replace(/\D/g,'');
+  if(digits.length<9||digits.length>15)return 'เบอร์โทรไม่ถูกต้อง (9-15 หลัก)';
+  if(email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return 'รูปแบบอีเมลไม่ถูกต้อง';
+  return null;
+}
+
+function saveCustomer(){
+  hideMsg();
+  const name=document.getElementById('cName').value.trim();
+  const phone=document.getElementById('cPhone').value.trim();
+  const email=document.getElementById('cEmail').value.trim();
+  const note=document.getElementById('cNote').value.trim();
+  const err=validate(name,phone,email);
+  if(err){showMsg('❌ '+err);return;}
+
+  if(editId){
+    const c=customers.find(x=>x.id===editId);
+    if(c){c.name=name;c.phone=phone;c.email=email;c.note=note;c.updatedAt=Date.now();}
+    showMsg('✅ แก้ไขข้อมูลเรียบร้อย',true);
+    cancelEdit();
+  }else{
+    customers.push({
+      id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),
+      name,phone,email,note,
+      createdAt:Date.now()
+    });
+    showMsg('✅ บันทึกลูกค้าเรียบร้อย',true);
+    document.getElementById('cName').value='';
+    document.getElementById('cPhone').value='';
+    document.getElementById('cEmail').value='';
+    document.getElementById('cNote').value='';
+    document.getElementById('cName').focus();
+  }
+  save();render();
+}
+
+function editCustomer(id){
+  const c=customers.find(x=>x.id===id);
+  if(!c)return;
+  editId=id;
+  document.getElementById('cName').value=c.name;
+  document.getElementById('cPhone').value=c.phone;
+  document.getElementById('cEmail').value=c.email||'';
+  document.getElementById('cNote').value=c.note||'';
+  document.getElementById('formTitle').textContent='แก้ไขข้อมูลลูกค้า';
+  document.getElementById('formIcon').textContent='✏️';
+  document.getElementById('saveBtn').textContent='💾 บันทึกการแก้ไข';
+  document.getElementById('cancelBtn').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+  render();
+}
+
+function cancelEdit(){
+  editId=null;
+  document.getElementById('cName').value='';
+  document.getElementById('cPhone').value='';
+  document.getElementById('cEmail').value='';
+  document.getElementById('cNote').value='';
+  document.getElementById('formTitle').textContent='เพิ่มลูกค้าใหม่';
+  document.getElementById('formIcon').textContent='➕';
+  document.getElementById('saveBtn').textContent='💾 บันทึกลูกค้า';
+  document.getElementById('cancelBtn').style.display='none';
+  hideMsg();
+  render();
+}
+
+function deleteCustomer(id){
+  const c=customers.find(x=>x.id===id);
+  if(!c)return;
+  if(!confirm(`ลบ "${c.name}" ใช่ไหม?`))return;
+  customers=customers.filter(x=>x.id!==id);
+  save();render();
+  if(editId===id)cancelEdit();
+}
+
+function render(){
+  const q=document.getElementById('search').value.trim().toLowerCase();
+  const sortBy=document.getElementById('sortBy').value;
+  let list=customers.slice();
+  if(q)list=list.filter(c=>
+    (c.name||'').toLowerCase().includes(q)||
+    (c.phone||'').toLowerCase().includes(q)||
+    (c.email||'').toLowerCase().includes(q)||
+    (c.note||'').toLowerCase().includes(q)
+  );
+  if(sortBy==='new')list.sort((a,b)=>b.createdAt-a.createdAt);
+  else if(sortBy==='old')list.sort((a,b)=>a.createdAt-b.createdAt);
+  else if(sortBy==='name')list.sort((a,b)=>(a.name||'').localeCompare(b.name||'','th'));
+
+  const tb=document.getElementById('tbody');
+  if(list.length===0){
+    tb.innerHTML=`<tr><td colspan="5"><div class="empty-row"><div class="ei">${customers.length===0?'📭':'🔍'}</div><div class="et">${customers.length===0?'ยังไม่มีข้อมูลลูกค้า':'ไม่พบลูกค้าที่ค้นหา'}</div><div class="es">${customers.length===0?'เริ่มเพิ่มลูกค้าคนแรกจากฟอร์มด้านซ้าย':'ลองค้นหาด้วยคำอื่น'}</div></div></td></tr>`;
+  }else{
+    tb.innerHTML=list.map(c=>`
+      <tr class="${c.id===editId?'editing':''}">
+        <td class="nm">${esc(c.name)}</td>
+        <td class="ph"><a href="tel:${esc(c.phone)}" style="color:var(--dim)">${esc(c.phone)}</a></td>
+        <td class="em">${c.email?`<a href="mailto:${esc(c.email)}">${esc(c.email)}</a>`:'<span style="opacity:.4">—</span>'}</td>
+        <td class="em" style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(c.note||'')}">${esc(c.note||'')||'<span style="opacity:.4">—</span>'}</td>
+        <td class="act">
+          <button class="ibtn" onclick="editCustomer('${c.id}')">✏️ แก้ไข</button>
+          <button class="ibtn del" onclick="deleteCustomer('${c.id}')">🗑️ ลบ</button>
+        </td>
+      </tr>`).join('');
+  }
+
+  document.getElementById('totalCount').textContent=customers.length;
+  const today=new Date();today.setHours(0,0,0,0);
+  const t=today.getTime();
+  document.getElementById('todayCount').textContent=customers.filter(c=>c.createdAt>=t).length;
+  document.getElementById('listInfo').textContent=`${list.length} รายการ${q?' (จาก '+customers.length+')':''}`;
+}
+
+function exportCSV(){
+  if(customers.length===0){showMsg('❌ ยังไม่มีข้อมูลให้ Export');return;}
+  const head=['ชื่อ','เบอร์โทร','อีเมล','หมายเหตุ','วันที่เพิ่ม'];
+  const esc=s=>`"${String(s||'').replace(/"/g,'""')}"`;
+  const rows=customers.map(c=>[c.name,c.phone,c.email,c.note,new Date(c.createdAt).toLocaleString('th-TH')].map(esc).join(','));
+  const csv='\ufeff'+head.map(esc).join(',')+'\n'+rows.join('\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=`customers_${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showMsg('✅ Export สำเร็จ ('+customers.length+' รายการ)',true);
+}
+
+function importCSV(){document.getElementById('fileInput').click();}
+
+function handleFile(e){
+  const f=e.target.files[0];if(!f)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try{
+      const text=ev.target.result.replace(/^\ufeff/,'');
+      const lines=text.split(/\r?\n/).filter(l=>l.trim());
+      if(lines.length<2){showMsg('❌ ไฟล์ว่าง');return;}
+      let added=0;
+      for(let i=1;i<lines.length;i++){
+        const cols=parseCSVLine(lines[i]);
+        const name=(cols[0]||'').trim();
+        const phone=(cols[1]||'').trim();
+        if(!name||!phone)continue;
+        customers.push({
+          id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),
+          name,phone,
+          email:(cols[2]||'').trim(),
+          note:(cols[3]||'').trim(),
+          createdAt:Date.now()
+        });
+        added++;
+      }
+      save();render();
+      showMsg(`✅ Import สำเร็จ ${added} รายการ`,true);
+    }catch(err){showMsg('❌ อ่านไฟล์ไม่ได้: '+err.message);}
+  };
+  reader.readAsText(f,'utf-8');
+  e.target.value='';
+}
+
+function parseCSVLine(line){
+  const out=[];let cur='',inQ=false;
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(inQ){
+      if(ch==='"'&&line[i+1]==='"'){cur+='"';i++;}
+      else if(ch==='"')inQ=false;
+      else cur+=ch;
+    }else{
+      if(ch==='"')inQ=true;
+      else if(ch===','){out.push(cur);cur='';}
+      else cur+=ch;
+    }
+  }
+  out.push(cur);return out;
+}
+
+function clearAll(){
+  if(customers.length===0){showMsg('❌ ยังไม่มีข้อมูล');return;}
+  if(!confirm(`ลบข้อมูลลูกค้าทั้งหมด ${customers.length} รายการ? (ไม่สามารถกู้คืนได้)`))return;
+  if(!confirm('ยืนยันอีกครั้ง — การลบนี้ถาวร'))return;
+  customers=[];save();render();cancelEdit();
+  showMsg('✅ ล้างข้อมูลเรียบร้อย',true);
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&(e.target.id==='cName'||e.target.id==='cPhone'||e.target.id==='cEmail')){
+    e.preventDefault();saveCustomer();
+  }
+  if(e.key==='Escape'&&editId)cancelEdit();
+});
+
+load();render();
+</script>
+</body>
+</html>
